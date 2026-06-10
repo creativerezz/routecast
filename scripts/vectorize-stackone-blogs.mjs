@@ -45,7 +45,9 @@ const stopwords = new Set(
     "with",
     "you",
     "your",
-  ].join(" ").split(/\s+/),
+  ]
+    .join(" ")
+    .split(/\s+/),
 );
 
 function decodeEntities(value) {
@@ -102,7 +104,8 @@ function postUrlsFromIndex(html) {
 
 function cleanPostText(text) {
   const seen = new Set();
-  const skip = /^(platform|connect|optimize|secure|solutions|resources|developers|learn|pricing|login|book demo|start free|all agents|mcp|announcements|ai research|ai safety|engineering|using stackone|industry takes|was this page helpful\?|yes no|© 2026 stackone|table of contents)$/i;
+  const skip =
+    /^(platform|connect|optimize|secure|solutions|resources|developers|learn|pricing|login|book demo|start free|all agents|mcp|announcements|ai research|ai safety|engineering|using stackone|industry takes|was this page helpful\?|yes no|© 2026 stackone|table of contents)$/i;
   const lines = text
     .split("\n")
     .map((line) => line.trim())
@@ -117,10 +120,12 @@ function cleanPostText(text) {
 }
 
 function tokenize(text) {
-  return text
-    .toLowerCase()
-    .match(/[a-z0-9][a-z0-9+._-]{1,}/g)
-    ?.filter((token) => !stopwords.has(token) && token.length < 60) ?? [];
+  return (
+    text
+      .toLowerCase()
+      .match(/[a-z0-9][a-z0-9+._-]{1,}/g)
+      ?.filter((token) => !stopwords.has(token) && token.length < 60) ?? []
+  );
 }
 
 function hashToken(token) {
@@ -204,7 +209,9 @@ async function main() {
       text,
     };
     if (post.wordCount >= 100) posts.push(post);
-    console.error(`${String(i + 1).padStart(2, "0")}/${urls.length} ${post.slug} (${post.wordCount} words)`);
+    console.error(
+      `${String(i + 1).padStart(2, "0")}/${urls.length} ${post.slug} (${post.wordCount} words)`,
+    );
   }
 
   const chunks = posts.flatMap(makeChunks);
@@ -230,15 +237,15 @@ async function main() {
   );
   await writeFile(
     path.join(OUT_DIR, "posts.jsonl"),
-    posts.map((post) => JSON.stringify(post)).join("\n") + "\n",
+    `${posts.map((post) => JSON.stringify(post)).join("\n")}\n`,
   );
   await writeFile(
     path.join(OUT_DIR, "chunks.jsonl"),
-    chunks.map((chunk) => JSON.stringify(chunk)).join("\n") + "\n",
+    `${chunks.map((chunk) => JSON.stringify(chunk)).join("\n")}\n`,
   );
   await writeFile(
     path.join(OUT_DIR, "vectors.jsonl"),
-    chunks
+    `${chunks
       .map((chunk, i) =>
         JSON.stringify({
           id: chunk.id,
@@ -247,7 +254,7 @@ async function main() {
           vector: vectors[i],
         }),
       )
-      .join("\n") + "\n",
+      .join("\n")}\n`,
   );
   console.error(`wrote ${OUT_DIR}`);
 }
