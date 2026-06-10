@@ -1,6 +1,7 @@
 # StackOne Blog Vector Corpus
 
-Local vectorized corpus of StackOne blog posts for Routecast product research.
+Local vectorized corpus of StackOne blog posts plus `llms.txt` for Routecast
+product research.
 
 Generated with:
 
@@ -32,6 +33,10 @@ Files:
 - `vectors.jsonl` - sparse hashed-TF-IDF vectors keyed to chunks
 - `openai-manifest.json` - dense embedding metadata, when generated
 - `openai-vectors.jsonl` - dense OpenAI embeddings keyed to chunks, when generated
+
+The `stackone-llms` record comes from `https://www.stackone.com/llms.txt` and
+captures StackOne's LLM-facing sitemap, product claims, connector/action counts,
+changelog links, and blog index.
 
 The sparse index is dependency-free and does not require a hosted embeddings API.
 When `openai-vectors.jsonl` exists, the search script uses dense OpenAI

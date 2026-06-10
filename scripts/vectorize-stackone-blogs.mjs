@@ -3,6 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const BLOG_URL = "https://www.stackone.com/blog/";
+const LLMS_URL = "https://www.stackone.com/llms.txt";
 const OUT_DIR = path.resolve("research/stackone-blog-vectors");
 const DIMENSIONS = 4096;
 const CHUNK_WORDS = 700;
@@ -155,6 +156,18 @@ function makeChunks(post) {
   return chunks;
 }
 
+async function llmsPost() {
+  const text = await fetchText(LLMS_URL);
+  return {
+    slug: "stackone-llms",
+    url: LLMS_URL,
+    title: "StackOne llms.txt",
+    description: "StackOne's LLM-facing product, connector, changelog, and content map.",
+    wordCount: text.split(/\s+/).filter(Boolean).length,
+    text,
+  };
+}
+
 function vectorize(chunks) {
   const docs = chunks.map((chunk) => tokenize(`${chunk.title} ${chunk.text}`));
   const dfs = new Map();
@@ -213,6 +226,9 @@ async function main() {
       `${String(i + 1).padStart(2, "0")}/${urls.length} ${post.slug} (${post.wordCount} words)`,
     );
   }
+  const llms = await llmsPost();
+  posts.push(llms);
+  console.error(`llms.txt ${llms.slug} (${llms.wordCount} words)`);
 
   const chunks = posts.flatMap(makeChunks);
   const vectors = vectorize(chunks);
@@ -224,6 +240,7 @@ async function main() {
       {
         generatedAt,
         source: BLOG_URL,
+        extraSources: [LLMS_URL],
         posts: posts.length,
         chunks: chunks.length,
         dimensions: DIMENSIONS,

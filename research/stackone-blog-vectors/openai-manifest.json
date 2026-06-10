@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-10T05:35:43.906Z",
-  "chunks": 193,
+  "generatedAt": "2026-06-10T05:40:18.897Z",
+  "chunks": 202,
   "dimensions": 1536,
   "vectorizer": "openai",
   "model": "text-embedding-3-small",
