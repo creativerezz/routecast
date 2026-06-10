@@ -4,6 +4,7 @@ import path from "node:path";
 
 const BLOG_URL = "https://www.stackone.com/blog/";
 const LLMS_URL = "https://www.stackone.com/llms.txt";
+const LLMS_FULL_URL = "https://www.stackone.com/llms-full.txt";
 const OUT_DIR = path.resolve("research/stackone-blog-vectors");
 const DIMENSIONS = 4096;
 const CHUNK_WORDS = 700;
@@ -156,13 +157,13 @@ function makeChunks(post) {
   return chunks;
 }
 
-async function llmsPost() {
-  const text = await fetchText(LLMS_URL);
+async function llmsPost(url, slug, title, description) {
+  const text = await fetchText(url);
   return {
-    slug: "stackone-llms",
-    url: LLMS_URL,
-    title: "StackOne llms.txt",
-    description: "StackOne's LLM-facing product, connector, changelog, and content map.",
+    slug,
+    url,
+    title,
+    description,
     wordCount: text.split(/\s+/).filter(Boolean).length,
     text,
   };
@@ -226,9 +227,24 @@ async function main() {
       `${String(i + 1).padStart(2, "0")}/${urls.length} ${post.slug} (${post.wordCount} words)`,
     );
   }
-  const llms = await llmsPost();
-  posts.push(llms);
-  console.error(`llms.txt ${llms.slug} (${llms.wordCount} words)`);
+  const llmsSources = [
+    await llmsPost(
+      LLMS_URL,
+      "stackone-llms",
+      "StackOne llms.txt",
+      "StackOne's LLM-facing product, connector, changelog, and content map.",
+    ),
+    await llmsPost(
+      LLMS_FULL_URL,
+      "stackone-llms-full",
+      "StackOne llms-full.txt",
+      "Full StackOne site content for LLM consumption.",
+    ),
+  ];
+  posts.push(...llmsSources);
+  for (const source of llmsSources) {
+    console.error(`${source.slug} (${source.wordCount} words)`);
+  }
 
   const chunks = posts.flatMap(makeChunks);
   const vectors = vectorize(chunks);
@@ -240,7 +256,7 @@ async function main() {
       {
         generatedAt,
         source: BLOG_URL,
-        extraSources: [LLMS_URL],
+        extraSources: [LLMS_URL, LLMS_FULL_URL],
         posts: posts.length,
         chunks: chunks.length,
         dimensions: DIMENSIONS,

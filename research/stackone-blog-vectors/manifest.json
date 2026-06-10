@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-06-10T05:40:10.452Z",
+  "generatedAt": "2026-06-10T05:42:42.533Z",
   "source": "https://www.stackone.com/blog/",
-  "extraSources": ["https://www.stackone.com/llms.txt"],
-  "posts": 55,
-  "chunks": 202,
+  "extraSources": ["https://www.stackone.com/llms.txt", "https://www.stackone.com/llms-full.txt"],
+  "posts": 56,
+  "chunks": 262,
   "dimensions": 4096,
   "vectorizer": "hashed-tfidf",
   "chunkWords": 700,
