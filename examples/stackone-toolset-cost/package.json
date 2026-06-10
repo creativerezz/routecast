@@ -1,0 +1,12 @@
+{
+  "name": "stackone-toolset-cost-example",
+  "private": true,
+  "type": "module",
+  "description": "Estimate the cost shape of a StackOne ToolSet agent loop with @routecast/pricing",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "dependencies": {
+    "@routecast/pricing": "workspace:*"
+  }
+}

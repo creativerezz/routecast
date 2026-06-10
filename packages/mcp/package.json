@@ -1,0 +1,47 @@
+{
+  "name": "@routecast/mcp",
+  "version": "0.1.0",
+  "description": "Routecast MCP server — agents can query their own LLM costs: spend summaries, month-end forecasts, model recommendations, cost estimates, and pricing-cliff checks.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "routecast-mcp": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsdown"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "@routecast/core": "workspace:*",
+    "@routecast/pricing": "workspace:*",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "tsdown": "^0.12.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/creativerezz/routecast.git",
+    "directory": "packages/mcp"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "llm",
+    "cost",
+    "agents"
+  ]
+}

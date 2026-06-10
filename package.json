@@ -1,0 +1,24 @@
+{
+  "name": "routecast-monorepo",
+  "private": true,
+  "description": "Routecast — the cost intelligence layer for AI agents. An analyzer, not a gateway.",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@11.5.2",
+  "scripts": {
+    "build": "pnpm -r --filter './packages/*' build",
+    "test": "vitest run",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.0.0",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.0",
+    "tsdown": "^0.12.0",
+    "vitest": "^3.2.0"
+  }
+}
